@@ -159,4 +159,57 @@ public class PGMImage {
         PGMImage res = new PGMImage(namelarg, heightlarg, widthlarg, contentlarg); 
         return res;
     }
+    
+    
+    
+    /**
+     * Create image's histogram
+     * @return Histogram as a new PGMImage
+     */
+    public PGMImage histogram() {        
+        int max = 0;
+        Integer[] frequency = new Integer[256];
+        
+        // Initialization
+        for (int i = 0; i < 256; i++) {
+            frequency[i] = 0;
+        }
+        
+        // Counting
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                frequency[content[i][j]]++;
+            }
+        }
+        
+        // Max 
+        for (int i = 0; i < 256; i++) {
+            if (frequency[i] > max) {
+                max = frequency[i];
+            }
+        }
+        
+        // Defining image
+        int newHeight = 256;
+        int newWidth = max;
+        
+        // Initialize image
+        Integer[][] newContent = new Integer[newHeight][newWidth];
+        
+        for (int i = 0; i < newHeight; i++) {
+            for (int j = 0; j < newWidth; j++) {
+                newContent[i][j] = 0;
+            }
+        }
+        
+        // Draw histogram
+        
+        for (int j = 0; j < 256; j++) {
+            for (int i = 0; i < frequency[j]; i++) {
+                newContent[height - 1 - i][j] = 255;
+            }
+        }
+        
+        return new PGMImage("histogram_" + name, newHeight, newWidth, newContent); 
+    }
 }
