@@ -5,7 +5,9 @@
 package fr.ecnantes.PGMApp;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -13,6 +15,8 @@ import java.io.IOException;
  * @author simon
  */
 public abstract class PGMFileIO {
+    static final int LINE_MAX = 70;
+    
     /**
      * Read a PGM image from a file
      * @param dir   Directory   
@@ -45,6 +49,44 @@ public abstract class PGMFileIO {
         }
         
         return new PGMImage(getNameFromDir(dir), height, width, content);
+    }
+    
+    /**
+     * Write an PGMImage in a file (delete content if already existing)
+     * @param dir   Directory
+     * @param image PGMImage
+     * @throws IOException 
+     */
+    public static void write(String dir, PGMImage image) throws IOException {       
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dir + '/' + image.getName()))) {
+            writer.write("P2\n# \n");
+            
+            // Write Metadata
+            writer.write(image.getHeight() + "  " + image.getWidth() + "\n255\n");
+            
+            // Write Content
+            int pixel;
+            int currentLineLength = 0;
+            
+            for (int i = 0; i < image.getHeight(); i++) {
+                for (int j = 0; j < image.getWidth(); j++) {
+                    pixel = image.getContent()[i][j];
+                    
+                    if (currentLineLength == 0) {
+                        writer.write(pixel);
+                        currentLineLength = numberDigits(pixel);
+                    }
+                    else if (currentLineLength + numberDigits(pixel) + 2 < LINE_MAX) {
+                        writer.write("  " + pixel);
+                        currentLineLength += numberDigits(pixel) + 2;
+                    }
+                    else {
+                        writer.write("\n" + pixel);
+                        currentLineLength = numberDigits(pixel);
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -87,5 +129,21 @@ public abstract class PGMFileIO {
         }
         
         return dir.substring(i + 1);
+    }
+    
+    /**
+     * Returns the number of digits of an integer
+     * @param n Integer
+     * @return  Number of digits
+     */
+    private static int numberDigits(int n) {
+        int digits = 1;
+        
+        while (n / 10 > 0) {
+            digits++;
+            n = n / 10;
+        }
+        
+        return digits;
     }
 }
