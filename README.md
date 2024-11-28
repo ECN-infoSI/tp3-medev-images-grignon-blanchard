@@ -6,8 +6,11 @@ Manon GRIGNON (@nonamgrig) & Simon BLANCHARD (@omykronn)
 
 - Branch _main_ : Stable version of the app
 - Branch _io_ : Input/Ouput operations
+  - Simon BLANCHARD (@Omykronn)
 - Branch _tools_ : Editing operations
+  - Manon GRIGNON (@nonamgrig)
 - Branch _gui_ : Graphical Interface
+  - Kaoutar RASMI (@KaoutarRasmi)
 
 ## Class Diagram
 
