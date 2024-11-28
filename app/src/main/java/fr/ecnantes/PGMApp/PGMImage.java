@@ -81,5 +81,180 @@ public class PGMImage {
         this.content = content;
     }
     
+    /**
+     * Difference between 2 images px by px
+     * @grigm
+     * @param other     image to compare
+     * @return          difference image 
+     **/
+    public PGMImage difference(PGMImage other){
+        String namediff ="Diff-"+ this.getName() + "-"+ other.getName();  
+        int heightdiff =  this.getHeight(); 
+        int widthdiff = this.getWidth(); 
+        Integer[][] contentdiff = new Integer[heightdiff][ widthdiff]; 
+        
+        Integer[][] othercontent= other.getContent(); 
+        
+        for (int i = 0; i< heightdiff; i++) {
+         for (int j = 0;j < widthdiff;j++) {
+            contentdiff[i][j] = Math.abs(this.content[i][j]-othercontent[i][j]);
+         }
+        }
+        PGMImage res = new PGMImage(namediff, heightdiff, widthdiff, contentdiff); 
+        return res; 
+    }
+    /**
+     * Thresholding method
+     * @grigm
+     * @param threshold     image to threshold
+     * @return              thresheld image 
+     **/
+    public PGMImage thresholding(int threshold ){
+        String namethres =this.getName() + "-Threshold-"+threshold; 
+        int heightthres=  this.getHeight(); 
+        int widththres = this.getWidth(); 
+        Integer[][] contentthres = new Integer[heightthres][widththres];
+        
+        for (int i = 0; i< heightthres; i++) {
+         for (int j = 0;j < widththres;j++) {
+            if (this.getContent()[i][j]< threshold){
+                contentthres[i][j]=0; 
+            }else {
+                contentthres[i][j]=255; 
+            }
+           }
+        }
+        
+        PGMImage res = new PGMImage(namethres, heightthres, widththres, contentthres); 
+        return res; 
+                
+    }
     
+    /**
+     * Enlargement method
+     * @grigm
+     * @param ratio     ratio to enlarge image
+     * @return          enlarged image 
+     **/
+    public PGMImage enlargement(int ratio){
+        String namelarg =this.getName() + "-Enlarged-"+ratio; 
+        int heightlarg=  ratio*this.getHeight(); 
+        int widthlarg = ratio*this.getWidth(); 
+        Integer[][] contentlarg = new Integer[heightlarg][widthlarg];
+        
+        for (int i = 0; i< this.getHeight(); i++) {
+            for (int j = 0;j < this.getWidth();j++) {
+                int value = this.getContent()[i][j];
+                
+                for (int i2 = i*ratio; i2< i*ratio+ratio; i2++) {
+                    for (int j2 = j*ratio;j2< j*ratio+ratio;j2++) {
+                        contentlarg[i2][j2]=value; 
+                    }
+                        
+                }
+            }
+        }
+        
+        
+        PGMImage res = new PGMImage(namelarg, heightlarg, widthlarg, contentlarg); 
+        return res;
+    }
+    
+    /**
+     * Reduction method
+     * @grigm
+     * @param ratio     ratio to reduce image
+     * @return          reduced image 
+     **/
+    public PGMImage reduction(int ratio){
+        String namered =this.getName() + "-Reducted-"+ratio;
+        
+        try {
+            int heightred =  this.getHeight()/ratio; 
+            int restheightred = this.getHeight()%ratio; 
+            int widthred = this.getWidth()/ratio; 
+            int restwidthred = this.getWidth()%ratio; 
+            
+            Integer[][] contentred  = new Integer[heightred +restheightred ][widthred +restwidthred ];
+            
+            for (int i2 = 0; i2< heightred+restheightred ; i2++) {
+                for (int j2 = 0;j2 < widthred+restwidthred ;j2++) {
+                    
+                    
+                    int total = 0;
+                    int count = 0; 
+                    for (int i = i2*ratio; i< i2*ratio+ratio; i++) {
+                        for (int j = j2*ratio;j< j2*ratio+ratio;j++) {
+                            if (i < this.getHeight() && j < this.getWidth()){
+                                total = total + this.getContent()[i][j]; 
+                                count ++; 
+                            }
+                        }
+                    }
+                    contentred[i2][j2]= total/count; 
+                    
+                }
+            }
+            
+            
+            PGMImage res = new PGMImage(namered, heightred, widthred, contentred); 
+            return res;
+        }catch (Exception e) {
+            System.out.println("Ratio de 0 impossible"); 
+        }
+        return null; 
+        
+    }
+    
+    
+    /**
+     * Create image's histogram
+     * @return Histogram as a new PGMImage
+     */
+    public PGMImage histogram() {        
+        int max = 0;
+        Integer[] frequency = new Integer[256];
+        
+        // Initialization
+        for (int i = 0; i < 256; i++) {
+            frequency[i] = 0;
+        }
+        
+        // Counting
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                frequency[content[i][j]]++;
+            }
+        }
+        
+        // Max 
+        for (int i = 0; i < 256; i++) {
+            if (frequency[i] > max) {
+                max = frequency[i];
+            }
+        }
+        
+        // Defining image
+        int newHeight = 256;
+        int newWidth = max;
+        
+        // Initialize image
+        Integer[][] newContent = new Integer[newHeight][newWidth];
+        
+        for (int i = 0; i < newHeight; i++) {
+            for (int j = 0; j < newWidth; j++) {
+                newContent[i][j] = 0;
+            }
+        }
+        
+        // Draw histogram
+        
+        for (int j = 0; j < 256; j++) {
+            for (int i = 0; i < frequency[j]; i++) {
+                newContent[height - 1 - i][j] = 255;
+            }
+        }
+        
+        return new PGMImage("histogram_" + name, newHeight, newWidth, newContent); 
+    }
 }
