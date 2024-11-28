@@ -103,5 +103,31 @@ public class PGMImage {
         PGMImage res = new PGMImage(namediff, heightdiff, widthdiff, contentdiff); 
         return res; 
     }
+    /**
+     * Thresholding method
+     * @grigm
+     * @param threshold     image to threshold
+     * @return              thresheld image 
+     **/
+    public PGMImage thresholding(int threshold ){
+        String namethres =this.getName() + "-Threshold-"+threshold; 
+        int heightthres=  this.getHeight(); 
+        int widththres = this.getWidth(); 
+        Integer[][] contentthres = new Integer[heightthres][widththres];
+        
+         for (int i = 0; i< heightthres; i++) {
+         for (int j = 0;j < widththres;j++) {
+            if (this.getContent()[i][j]< threshold){
+                contentthres[i][j]=0; 
+            }else {
+                contentthres[i][j]=255; 
+            }
+            }
+        }
+        
+        PGMImage res = new PGMImage(namethres, heightthres, widththres, contentthres); 
+        return res; 
+                
+    }
     
 }
