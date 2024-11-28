@@ -133,7 +133,7 @@ public class PGMImage {
     /**
      * Enlargement method
      * @grigm
-     * @param ratio     ratio to enlarg image
+     * @param ratio     ratio to enlarge image
      * @return          enlarged image 
      **/
     public PGMImage enlargement(int ratio){
@@ -158,5 +158,50 @@ public class PGMImage {
         
         PGMImage res = new PGMImage(namelarg, heightlarg, widthlarg, contentlarg); 
         return res;
+    }
+    
+    /**
+     * Reduction method
+     * @grigm
+     * @param ratio     ratio to reduce image
+     * @return          reduced image 
+     **/
+    public PGMImage reduction(int ratio){
+        String namered =this.getName() + "-Reducted-"+ratio;
+        
+        try {
+            int heightred =  this.getHeight()/ratio; 
+            int restheightred = this.getHeight()%ratio; 
+            int widthred = this.getWidth()/ratio; 
+            int restwidthred = this.getWidth()%ratio; 
+            
+            Integer[][] contentred  = new Integer[heightred +restheightred ][widthred +restwidthred ];
+            
+            for (int i2 = 0; i2< heightred+restheightred ; i2++) {
+                for (int j2 = 0;j2 < widthred+restwidthred ;j2++) {
+                    
+                    
+                    int total = 0;
+                    int count = 0; 
+                    for (int i = i2*ratio; i< i2*ratio+ratio; i++) {
+                        for (int j = j2*ratio;j< j2*ratio+ratio;j++) {
+                            if (i < this.getHeight() && j < this.getWidth()){
+                                total = total + this.getContent()[i][j]; 
+                                count ++; 
+                            }
+                        }
+                    }
+                    contentred[i2][j2]= total/count; 
+                    
+                }
+            }
+            
+            
+            PGMImage res = new PGMImage(namered, heightred, widthred, contentred); 
+            return res;
+        }catch (Exception e) {
+            System.out.println("Ratio de 0 impossible"); 
+        }
+        return null; 
     }
 }
