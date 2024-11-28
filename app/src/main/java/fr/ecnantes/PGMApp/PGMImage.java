@@ -81,5 +81,27 @@ public class PGMImage {
         this.content = content;
     }
     
+    /**
+     * Difference between 2 images px by px
+     * @grigm
+     * @param other     image to compare
+     * @return          difference image 
+     **/
+    public PGMImage difference(PGMImage other){
+        String namediff ="Diff-"+ this.getName() + "-"+ other.getName();  
+        int heightdiff =  this.getHeight(); 
+        int widthdiff = this.getWidth(); 
+        Integer[][] contentdiff = new Integer[heightdiff][ widthdiff]; 
+        
+        Integer[][] othercontent= other.getContent(); 
+        
+        for (int i = 0; i< heightdiff; i++) {
+         for (int j = 0;j < widthdiff;j++) {
+            contentdiff[i][j] = Math.abs(this.content[i][j]-othercontent[i][j]);
+            }
+        }
+        PGMImage res = new PGMImage(namediff, heightdiff, widthdiff, contentdiff); 
+        return res; 
+    }
     
 }
