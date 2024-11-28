@@ -98,7 +98,7 @@ public class PGMImage {
         for (int i = 0; i< heightdiff; i++) {
          for (int j = 0;j < widthdiff;j++) {
             contentdiff[i][j] = Math.abs(this.content[i][j]-othercontent[i][j]);
-            }
+         }
         }
         PGMImage res = new PGMImage(namediff, heightdiff, widthdiff, contentdiff); 
         return res; 
@@ -115,14 +115,14 @@ public class PGMImage {
         int widththres = this.getWidth(); 
         Integer[][] contentthres = new Integer[heightthres][widththres];
         
-         for (int i = 0; i< heightthres; i++) {
+        for (int i = 0; i< heightthres; i++) {
          for (int j = 0;j < widththres;j++) {
             if (this.getContent()[i][j]< threshold){
                 contentthres[i][j]=0; 
             }else {
                 contentthres[i][j]=255; 
             }
-            }
+           }
         }
         
         PGMImage res = new PGMImage(namethres, heightthres, widththres, contentthres); 
@@ -130,4 +130,33 @@ public class PGMImage {
                 
     }
     
+    /**
+     * Enlargement method
+     * @grigm
+     * @param ratio     ratio to enlarg image
+     * @return          enlarged image 
+     **/
+    public PGMImage enlargement(int ratio){
+        String namelarg =this.getName() + "-Enlarged-"+ratio; 
+        int heightlarg=  ratio*this.getHeight(); 
+        int widthlarg = ratio*this.getWidth(); 
+        Integer[][] contentlarg = new Integer[heightlarg][widthlarg];
+        
+        for (int i = 0; i< this.getHeight(); i++) {
+            for (int j = 0;j < this.getWidth();j++) {
+                int value = this.getContent()[i][j];
+                
+                for (int i2 = i*ratio; i2< i*ratio+ratio; i2++) {
+                    for (int j2 = j*ratio;j2< j*ratio+ratio;j2++) {
+                        contentlarg[i2][j2]=value; 
+                    }
+                        
+                }
+            }
+        }
+        
+        
+        PGMImage res = new PGMImage(namelarg, heightlarg, widthlarg, contentlarg); 
+        return res;
+    }
 }
