@@ -203,6 +203,8 @@ public class PGMImage {
             System.out.println("Ratio de 0 impossible"); 
         }
         return null; 
+        
+    }
     
     
     /**
