@@ -1,6 +1,6 @@
 # PGMApp
 
-Manon GRIGNON & Simon BLANCHARD
+Manon GRIGNON (@nonamgrig) & Simon BLANCHARD (@omykronn)
 
 ## Repository structure
 
