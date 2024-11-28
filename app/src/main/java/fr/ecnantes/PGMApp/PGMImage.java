@@ -235,8 +235,8 @@ public class PGMImage {
         }
         
         // Defining image
-        int newHeight = 256;
-        int newWidth = max;
+        int newHeight = max;
+        int newWidth = 256;
         
         // Initialize image
         Integer[][] newContent = new Integer[newHeight][newWidth];
@@ -251,7 +251,7 @@ public class PGMImage {
         
         for (int j = 0; j < 256; j++) {
             for (int i = 0; i < frequency[j]; i++) {
-                newContent[height - 1 - i][j] = 255;
+                newContent[newHeight - 1 - i][j] = 255;
             }
         }
         
