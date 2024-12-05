@@ -73,7 +73,7 @@ public abstract class PGMFileIO {
                     pixel = image.getContent()[i][j];
                     
                     if (currentLineLength == 0) {
-                        writer.write(pixel);
+                        writer.write("" + pixel);
                         currentLineLength = numberDigits(pixel);
                     }
                     else if (currentLineLength + numberDigits(pixel) + 2 < LINE_MAX) {
