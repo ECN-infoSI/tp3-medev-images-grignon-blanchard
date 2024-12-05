@@ -109,6 +109,7 @@ public class PGMImageTest {
         int thres=2; 
         PGMImage res =image.thresholding(thres); 
         
+        //expected 
         Integer[][] tableauexp = {{0, 0, 255},{0,255,255}}; 
         
         
@@ -124,16 +125,28 @@ public class PGMImageTest {
      * Test of enlargement method, of class PGMImage.
      */
     @Test
-    @Disabled
     public void testEnlargement() {
         System.out.println("enlargement");
-        int ratio = 0;
-        PGMImage instance = null;
-        PGMImage expResult = null;
-        PGMImage result = instance.enlargement(ratio);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        
+        //first image
+        Integer[][] tableau = new Integer[2][3];
+        for (int i = 0;i < tableau.length; i++) {
+         for (int j = 0;j < tableau[i].length;j++) {
+            tableau[i][j] = i + j;
+            }
+        }
+        PGMImage image = new PGMImage("cc", 2, 3, tableau);
+              
+        //enlargement
+        Integer[][] res = image.enlargement(2).getContent(); 
+        
+        //expected 
+        Integer[][] tableauexp = {{0, 0, 1,1,2,2},{0, 0, 1,1,2,2},{1,1,2,2,3,3}, {1,1,2,2,3,3}}; 
+        
+        assertArrayEquals(tableauexp,res);
+        
+        
     }
 
     /**
