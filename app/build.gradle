@@ -23,6 +23,8 @@ dependencies {
 
     // This dependency is used by the application.
     implementation libs.guava
+
+    implementation group: 'commons-io', name: 'commons-io', version: '2.18.0'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
