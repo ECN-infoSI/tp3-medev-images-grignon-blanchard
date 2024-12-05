@@ -196,15 +196,29 @@ public class PGMImageTest {
      * Test of histogram method, of class PGMImage.
      */
     @Test
-    @Disabled
+    @Disabled 
     public void testHistogram() {
         System.out.println("histogram");
-        PGMImage instance = null;
-        PGMImage expResult = null;
-        PGMImage result = instance.histogram();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+         //first image 
+        Integer[][] tableau = {{124,124,1,1},{1,1,1,1}};
+        PGMImage image = new PGMImage("cc", 2, 3, tableau);
+        PGMImage res =image.histogram(); 
+        
+        //expected 
+        Integer[][] tableauexp = new Integer[512][256]; 
+        
+        for (int i = 0;i < tableauexp.length/4;i++) {
+            tableauexp[i][124] = 255 ;
+        }
+        
+        for (int i = 0;i < tableauexp.length/4*3;i++) {
+            tableauexp[i][1] = 255 ;
+        }
+        
+        assertArrayEquals(tableauexp,res.getContent());
+        
+        
     }
     
 }
