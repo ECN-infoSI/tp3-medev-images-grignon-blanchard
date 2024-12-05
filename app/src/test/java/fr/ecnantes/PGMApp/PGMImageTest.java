@@ -196,7 +196,6 @@ public class PGMImageTest {
      * Test of histogram method, of class PGMImage.
      */
     @Test
-    @Disabled 
     public void testHistogram() {
         System.out.println("histogram");
         
@@ -208,12 +207,18 @@ public class PGMImageTest {
         //expected 
         Integer[][] tableauexp = new Integer[512][256]; 
         
+        for (int i = 0;i < tableauexp.length; i++) {
+         for (int j = 0;j < tableauexp[i].length;j++) {
+            tableauexp[i][j] = 255;
+            }
+        }
+        
         for (int i = 0;i < tableauexp.length/4;i++) {
-            tableauexp[i][124] = 255 ;
+            tableauexp[i][124] = 0 ;
         }
         
         for (int i = 0;i < tableauexp.length/4*3;i++) {
-            tableauexp[i][1] = 255 ;
+            tableauexp[i][1] = 0 ;
         }
         
         assertArrayEquals(tableauexp,res.getContent());
