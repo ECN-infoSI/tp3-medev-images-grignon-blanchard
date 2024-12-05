@@ -33,9 +33,9 @@ public abstract class PGMFileIO {
             reader.skip(6);
             
             // Read Metadata
-            height = readNextInt(reader);
-            reader.skip(1); // Separation by two non-numeric characters
             width = readNextInt(reader);
+            reader.skip(1); // Separation by two non-numeric characters
+            height = readNextInt(reader);
             int saturationMax = readNextInt(reader);
             
             // Read Content
@@ -62,7 +62,7 @@ public abstract class PGMFileIO {
             writer.write("P2\n# \n");
             
             // Write Metadata
-            writer.write(image.getHeight() + "  " + image.getWidth() + "\n255\n");
+            writer.write(image.getWidth() + "  " + image.getHeight() + "\n255\n");
             
             // Write Content
             int pixel;
@@ -73,7 +73,7 @@ public abstract class PGMFileIO {
                     pixel = image.getContent()[i][j];
                     
                     if (currentLineLength == 0) {
-                        writer.write(pixel);
+                        writer.write("" + pixel);
                         currentLineLength = numberDigits(pixel);
                     }
                     else if (currentLineLength + numberDigits(pixel) + 2 < LINE_MAX) {
