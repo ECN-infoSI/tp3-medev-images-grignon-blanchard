@@ -153,16 +153,43 @@ public class PGMImageTest {
      * Test of reduction method, of class PGMImage.
      */
     @Test
-    @Disabled
     public void testReduction() {
         System.out.println("reduction");
-        int ratio = 0;
-        PGMImage instance = null;
-        PGMImage expResult = null;
-        PGMImage result = instance.reduction(ratio);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //first image odd width
+        Integer[][] tableau = new Integer[4][7];
+        for (int i = 0;i < tableau.length; i++) {
+         for (int j = 0;j < tableau[i].length;j++) {
+            tableau[i][j] = i + j;
+            }
+        }
+        PGMImage image = new PGMImage("cc",4, 7, tableau);
+        
+        //reduction
+        Integer[][] res = image.reduction(2).getContent(); 
+        
+        //expected 
+        Integer[][] tableauexp = {{1,3,5,6},{3,5,7,8}}; 
+        
+        assertArrayEquals(tableauexp,res);
+        
+        
+        //first image even width
+        Integer[][] tableau2 = new Integer[4][6];
+        for (int i = 0;i < tableau2.length; i++) {
+         for (int j = 0;j < tableau2[i].length;j++) {
+            tableau2[i][j] = i + j;
+            }
+        }
+        PGMImage image2 = new PGMImage("cc",4, 6, tableau2);
+        
+        //reduction
+        Integer[][] res2 = image2.reduction(2).getContent(); 
+        
+        //expected 
+        Integer[][] tableauexp2 = {{1,3,5},{3,5,7}}; 
+        
+        assertArrayEquals(tableauexp2,res2);
     }
 
     /**
