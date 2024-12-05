@@ -225,7 +225,7 @@ public class PGMImage {
             }
         }
         
-            }
+            
         // Draw histogram
         for (int j = 0; j < histWidth; j++) {
             int barHeight = (frequencies[j] * histHeight) / (height * width);
