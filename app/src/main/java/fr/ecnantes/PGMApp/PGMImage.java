@@ -211,50 +211,36 @@ public class PGMImage {
      * Create image's histogram
      * @return Histogram as a new PGMImage
      */
-    public PGMImage histogram() {        
-        int max = 0;
-        Integer[] frequency = new Integer[256];
+    public PGMImage histogram() {      
+        int histHeight = 512;
+        int histWidth = 256;
+        Integer[][] histContent = new Integer[histHeight][histWidth];
         
-        // Initialization
-        for (int i = 0; i < 256; i++) {
-            frequency[i] = 0;
-        }
+        // Calculate frequencies
+        int[] frequencies = new int[256];
         
-        // Counting
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                frequency[content[i][j]]++;
-            }
-        }
-        
-        // Max 
-        for (int i = 0; i < 256; i++) {
-            if (frequency[i] > max) {
-                max = frequency[i];
-            }
-        }
-        
-        // Defining image
-        int newHeight = 256;
-        int newWidth = max;
-        
-        // Initialize image
-        Integer[][] newContent = new Integer[newHeight][newWidth];
-        
-        for (int i = 0; i < newHeight; i++) {
-            for (int j = 0; j < newWidth; j++) {
-                newContent[i][j] = 0;
+                frequencies[content[i][j]] += 1;
             }
         }
         
         // Draw histogram
-        
-        for (int j = 0; j < 256; j++) {
-            for (int i = 0; i < frequency[j]; i++) {
-                newContent[height - 1 - i][j] = 255;
+        for (int j = 0; j < histWidth; j++) {
+            int barHeight = (frequencies[j] * histHeight) / (height * width);
+            
+            System.out.print("");
+            
+            for (int i = 0; i <= histHeight; i++) {
+                if (i < barHeight) {
+                    histContent[i][j] = 0;
+                }
+                else {
+                    histContent[i][j] = 255;
+                }
             }
         }
         
-        return new PGMImage("histogram_" + name, newHeight, newWidth, newContent); 
+        return new PGMImage("hist_" + name, histHeight, histWidth, histContent);
     }
 }
